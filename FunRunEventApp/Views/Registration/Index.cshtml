@@ -1,0 +1,168 @@
+﻿@model RegistrationModel
+@{
+    ViewData["Title"] = "Event Registration";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg rounded-3">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4">Event Registration</h2>
+
+                    <form asp-action="Submit" method="post" class="needs-validation" novalidate>
+                        <div class="row g-4">
+                            <!-- Personal Information -->
+                            <div class="col-12">
+                                <h5 class="mb-3">Personal Information</h5>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="FullName" class="form-control" placeholder="Full Name" required>
+                                    <label asp-for="FullName">Full Name</label>
+                                    <span asp-validation-for="FullName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="Email" type="email" class="form-control" placeholder="Email" required>
+                                    <label asp-for="Email">Email Address</label>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="ContactNumber" class="form-control" placeholder="Contact Number" required>
+                                    <label asp-for="ContactNumber">Contact Number</label>
+                                    <span asp-validation-for="ContactNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="Age" type="number" class="form-control" placeholder="Age" required min="1" max="120">
+                                    <label asp-for="Age">Age</label>
+                                    <span asp-validation-for="Age" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select asp-for="Gender" class="form-select" required>
+                                        <option value="">Select gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Prefer not to say">Prefer not to say</option>
+                                    </select>
+                                    <label asp-for="Gender">Gender</label>
+                                    <span asp-validation-for="Gender" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select asp-for="TShirtSize" class="form-select" required>
+                                        <option value="">Select size</option>
+                                        <option value="Small">Small</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Large">Large</option>
+                                        <option value="Extra-Large">Extra-Large</option>
+                                    </select>
+                                    <label asp-for="TShirtSize">T-Shirt Size</label>
+                                    <span asp-validation-for="TShirtSize" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Run Category -->
+                            <div class="col-12">
+                                <label class="form-label">Run Distance</label>
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <div class="form-check card bg-light p-3 text-center">
+                                            <input asp-for="Category" class="form-check-input" type="radio" value="5K" required>
+                                            <label class="form-check-label fw-bold">
+                                                5K Fun Run
+                                                <div class="text-muted small mt-1">Perfect for beginners</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check card bg-light p-3 text-center">
+                                            <input asp-for="Category" class="form-check-input" type="radio" value="10K">
+                                            <label class="form-check-label fw-bold">
+                                                10K Challenge
+                                                <div class="text-muted small mt-1">For intermediate runners</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check card bg-light p-3 text-center">
+                                            <input asp-for="Category" class="form-check-input" type="radio" value="Half Marathon">
+                                            <label class="form-check-label fw-bold">
+                                                Half Marathon
+                                                <div class="text-muted small mt-1">For experienced runners</div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="Category" class="text-danger"></span>
+                            </div>
+
+                            <!-- Emergency Contact -->
+                            <div class="col-12 mt-4">
+                                <h5 class="mb-3">Emergency Contact</h5>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="EmergencyContactName" class="form-control" placeholder="Emergency Contact Name" required>
+                                    <label asp-for="EmergencyContactName">Contact Name</label>
+                                    <span asp-validation-for="EmergencyContactName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="EmergencyContactNumber" class="form-control" placeholder="Emergency Contact Number" required>
+                                    <label asp-for="EmergencyContactNumber">Contact Number</label>
+                                    <span asp-validation-for="EmergencyContactNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill">
+                                    Complete Registration
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Enable Bootstrap form validation
+        (() => {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation')
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<FunRunEventApp.Models.RegistrationModel>
+
+@{
+    ViewData["Title"] = "Registrants List";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center">Registrants List</h1>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-striped table-bordered mt-4">
+            <thead class="table-dark">
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Contact Number</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Category</th>
+                    <th>T-shirt Size</th>
+                    <th>Emergency Contact Name</th>
+                    <th>Emergency Contact Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var registrant in Model)
+                {
+                    <tr>
+                        <td>@registrant.FullName</td>
+                        <td>@registrant.Email</td>
+                        <td>@registrant.ContactNumber</td>
+                        <td>@registrant.Age</td>
+                        <td>@registrant.Gender</td>
+                        <td>@registrant.Category</td>
+                        <td>@registrant.TShirtSize</td>
+                        <td>@registrant.EmergencyContactName</td>
+                        <td>@registrant.EmergencyContactNumber</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info text-center mt-4">
+            <p>No registrants found.</p>
+        </div>
+    }
+</div>
