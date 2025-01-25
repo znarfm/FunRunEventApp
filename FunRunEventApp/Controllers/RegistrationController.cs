@@ -1,11 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using FunRunEventApp.Models;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace FunRunEventApp.Controllers
 {
     public class RegistrationController : Controller
     {
+        private readonly FunRunContext _context;
+
+        public RegistrationController(FunRunContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -13,7 +21,24 @@ namespace FunRunEventApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Submit(RegistrationModel model)
+        public IActionResult Index(RegistrationModel model, string submitButton)
+        {
+            if (ModelState.IsValid)
+            {
+                switch (submitButton)
+                {
+                    case "ado":
+                        return SubmitADO(model);
+                    case "ef":
+                        return SubmitEF(model);
+                    default:
+                        return RedirectToAction("Index");
+                }
+            }
+            return View(model);
+        }
+
+        private IActionResult SubmitADO(RegistrationModel model)
         {
             if (ModelState.IsValid)
             {
@@ -76,10 +101,51 @@ namespace FunRunEventApp.Controllers
             return View(registrants);
         }
 
+        private IActionResult SubmitEF(RegistrationModel model)
+        {
+            _context.Registrations.Add(model);
+            _context.SaveChanges();
+            return RedirectToAction("ThankYou");
+        }
+
+        public IActionResult RegistrantsEF()
+        {
+            // Connect to the database and retrieve the data
+            SqlConnection conn = new SqlConnection("Data Source=tp-l14g3;Initial Catalog=FunRun;Integrated Security=True;Trust Server Certificate=True");
+            SqlCommand cmd = new SqlCommand("SELECT * FROM registrations", conn);
+
+            conn.Open();
+
+            SqlDataReader reader = cmd.ExecuteReader();
+            RegistrationModel model = new RegistrationModel();
+
+            List<RegistrationModel> registrants = new List<RegistrationModel>();
+
+            // Read the data and store it in the list of RegistrationModel objects
+            while (reader.Read())
+            {
+                registrants.Add(new RegistrationModel
+                {
+                    FullName = reader["FullName"].ToString(),
+                    Email = reader["Email"].ToString(),
+                    ContactNumber = reader["ContactNumber"].ToString(),
+                    Age = Convert.ToInt16(reader["Age"]),
+                    Gender = reader["Gender"].ToString(),
+                    Category = reader["Category"].ToString(),
+                    TShirtSize = reader["TShirtSize"].ToString(),
+                    EmergencyContactName = reader["EmergencyContactName"].ToString(),
+                    EmergencyContactNumber = reader["EmergencyContactNumber"].ToString(),
+                });
+            }
+            // always close the connection
+            conn.Close();
+            return View(registrants);
+        }
+
         public IActionResult ThankYou()
         {
             return View();
         }
     }
 }
-    
+

@@ -4,6 +4,9 @@ namespace FunRunEventApp.Models
 {
     public class RegistrationModel
     {
+        [Key]
+        public int Id { get; set; }
+
         [Required, Display(Name = "Full Name")]
         public string FullName { get; set; }
 
@@ -13,7 +16,7 @@ namespace FunRunEventApp.Models
         [Required, Display(Name = "Contact Number"), Phone]
         public string ContactNumber { get; set; }
 
-        [Required, Range(17, 120), Display(Name = "Age")]
+        [Required, Range(17, 100), Display(Name = "Age")]
         public int Age { get; set; }
 
         [Required, Display(Name = "Gender")]
