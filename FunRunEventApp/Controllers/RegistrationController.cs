@@ -108,38 +108,10 @@ namespace FunRunEventApp.Controllers
             return RedirectToAction("ThankYou");
         }
 
-        public IActionResult RegistrantsEF()
+        public async Task<IActionResult> RegistrantsEF()
         {
-            // Connect to the database and retrieve the data
-            SqlConnection conn = new SqlConnection("Data Source=tp-l14g3;Initial Catalog=FunRun;Integrated Security=True;Trust Server Certificate=True");
-            SqlCommand cmd = new SqlCommand("SELECT * FROM registrations", conn);
-
-            conn.Open();
-
-            SqlDataReader reader = cmd.ExecuteReader();
-            RegistrationModel model = new RegistrationModel();
-
-            List<RegistrationModel> registrants = new List<RegistrationModel>();
-
-            // Read the data and store it in the list of RegistrationModel objects
-            while (reader.Read())
-            {
-                registrants.Add(new RegistrationModel
-                {
-                    FullName = reader["FullName"].ToString(),
-                    Email = reader["Email"].ToString(),
-                    ContactNumber = reader["ContactNumber"].ToString(),
-                    Age = Convert.ToInt16(reader["Age"]),
-                    Gender = reader["Gender"].ToString(),
-                    Category = reader["Category"].ToString(),
-                    TShirtSize = reader["TShirtSize"].ToString(),
-                    EmergencyContactName = reader["EmergencyContactName"].ToString(),
-                    EmergencyContactNumber = reader["EmergencyContactNumber"].ToString(),
-                });
-            }
-            // always close the connection
-            conn.Close();
-            return View(registrants);
+            var registrants = await _context.Registrations.ToListAsync();
+            return View("Registrants", registrants);
         }
 
         public IActionResult ThankYou()
